@@ -26,13 +26,10 @@ public class LoginResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequestDTO loginRequestDTO) {
-        if(loginService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword())) {
-            String user = loginService.getUser(loginRequestDTO.getUser());
-            String token = loginService.generateToken(loginRequestDTO.getUser());
-            LoginResponseDTO loginResponseDTO = new LoginResponseDTO(token, user);
-
-            return Response.ok().entity(loginResponseDTO).build();
+        LoginResponseDTO loginResponseDTO = loginService.login(loginRequestDTO);
+        if(loginResponseDTO == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return Response.ok(loginResponseDTO).build();
     }
 }
