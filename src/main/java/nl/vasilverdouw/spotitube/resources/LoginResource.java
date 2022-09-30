@@ -10,10 +10,15 @@ import nl.vasilverdouw.spotitube.services.dto.LoginResponseDTO;
 
 @Path("/login")
 public class LoginResource {
-    private final LoginService loginService;
+    private LoginService loginService;
+
+    public LoginResource() {}
+    public LoginResource(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @Inject
-    public LoginResource(LoginService loginService) {
+    public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
     }
 
