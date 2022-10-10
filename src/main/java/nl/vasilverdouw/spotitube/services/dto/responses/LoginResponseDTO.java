@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.services.dto;
+package nl.vasilverdouw.spotitube.services.dto.responses;
 
 public class LoginResponseDTO {
     private String token;

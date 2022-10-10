@@ -1,25 +1,36 @@
 package nl.vasilverdouw.spotitube.services;
 
-import nl.vasilverdouw.spotitube.services.dto.LoginRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.LoginResponseDTO;
+import jakarta.inject.Inject;
+import nl.vasilverdouw.spotitube.datasource.LoginDao;
+import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
+import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
+
+import java.util.UUID;
 
 public class LoginService {
+
+    private LoginDao loginDao;
+
+    @Inject
+    public void setLoginDao(LoginDao loginDao) {
+        this.loginDao = loginDao;
+    }
+
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
-        var user = loginRequestDTO.getUser();
+        var username = loginRequestDTO.getUser();
         var password = loginRequestDTO.getPassword();
-
-        if(user.equals("Admin") && password.equals("Password")) {
-            return new LoginResponseDTO(generateToken(user), getUser(user));
+        var user = loginDao.getUser(username);
+        if (user != null && user.getPassword().equals(password)) {
+            var token = generateToken();
+            if (loginDao.setToken(username, token)) {
+                return new LoginResponseDTO(token, user.getFullname());
+            }
         }
-
         return null;
     }
 
-    public String getUser(String user) {
-        return "Admin";
-    }
-
-    public String generateToken(String user) {
-        return "0000";
+    // Source: https://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string
+    private String generateToken() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

@@ -5,8 +5,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import nl.vasilverdouw.spotitube.services.LoginService;
-import nl.vasilverdouw.spotitube.services.dto.LoginRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.LoginResponseDTO;
+import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
+import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
 
 @Path("/login")
 public class LoginResource {

@@ -1,8 +1,14 @@
-package nl.vasilverdouw.spotitube.services.dto;
+package nl.vasilverdouw.spotitube.services.dto.requests;
 
 public class LoginRequestDTO {
     private String user;
     private String password;
+
+    public LoginRequestDTO(String user, String password) {
+        this.user = user;
+        this.password = password;
+    }
+    public LoginRequestDTO() {}
 
     public String getUser() {
         return user;

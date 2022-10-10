@@ -1,8 +1,8 @@
 package nl.vasilverdouw.spotitube.resources;
 
 import nl.vasilverdouw.spotitube.services.LoginService;
-import nl.vasilverdouw.spotitube.services.dto.LoginRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.LoginResponseDTO;
+import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
+import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

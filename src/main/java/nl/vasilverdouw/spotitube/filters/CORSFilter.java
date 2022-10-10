@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.services;
+package nl.vasilverdouw.spotitube.filters;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
