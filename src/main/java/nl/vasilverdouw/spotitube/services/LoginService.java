@@ -2,6 +2,8 @@ package nl.vasilverdouw.spotitube.services;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.LoginDao;
+import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
+import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
 import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
 
@@ -16,17 +18,19 @@ public class LoginService {
         this.loginDao = loginDao;
     }
 
-    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
+    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) throws UnauthorizedException, ActionFailedException {
         var username = loginRequestDTO.getUser();
         var password = loginRequestDTO.getPassword();
         var user = loginDao.getUser(username);
-        if (user != null && user.getPassword().equals(password)) {
+        if (user.getPassword().equals(password)) {
             var token = generateToken();
             if (loginDao.setToken(username, token)) {
                 return new LoginResponseDTO(token, user.getFullname());
+            } else {
+                throw new ActionFailedException("Failed to set token");
             }
         }
-        return null;
+        throw new UnauthorizedException("Invalid username or password");
     }
 
     // Source: https://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string

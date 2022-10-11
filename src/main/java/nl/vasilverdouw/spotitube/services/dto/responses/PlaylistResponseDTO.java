@@ -1,19 +1,18 @@
-package nl.vasilverdouw.spotitube.services.dto;
+package nl.vasilverdouw.spotitube.services.dto.responses;
 
-import javax.sound.midi.Track;
 import java.util.ArrayList;
 
-public class PlaylistDTO {
+public class PlaylistResponseDTO {
     private int id;
     private String name;
     private boolean owner;
-    private ArrayList<TrackDTO> tracks;
+    private ArrayList<TrackResponseDTO> tracks;
 
-    public PlaylistDTO(int id, String name, boolean owner, int length, ArrayList<TrackDTO> tracks) {
+    public PlaylistResponseDTO(int id, String name, boolean owner) {
         this.id = id;
         this.name = name;
         this.owner = owner;
-        this.tracks = tracks;
+        this.tracks = new ArrayList<>();
     }
 
     public int getId() {
@@ -28,7 +27,7 @@ public class PlaylistDTO {
         return owner;
     }
 
-    public ArrayList<TrackDTO> getTracks() {
+    public ArrayList<TrackResponseDTO> getTracks() {
         return tracks;
     }
 
@@ -44,7 +43,7 @@ public class PlaylistDTO {
         this.owner = owner;
     }
 
-    public void setTracks(ArrayList<TrackDTO> tracks) {
+    public void setTracks(ArrayList<TrackResponseDTO> tracks) {
         this.tracks = tracks;
     }
 }

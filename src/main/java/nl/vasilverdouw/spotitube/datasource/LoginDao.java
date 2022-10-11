@@ -2,6 +2,7 @@ package nl.vasilverdouw.spotitube.datasource;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
+import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.dto.data.UserDTO;
 import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
 
@@ -24,20 +25,21 @@ public class LoginDao {
         this.databaseProperties = databaseProperties;
     }
 
-    public UserDTO getUser(String username) {
-        UserDTO user = null;
+    public UserDTO getUser(String username) throws UnauthorizedException {
         try  {
             Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new UserDTO(resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("token"), resultSet.getString("fullname"));
+                return new UserDTO(resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("token"), resultSet.getString("fullname"));
             }
+            statement.close();
+            connection.close();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while getting user", e);
         }
-        return user;
+        throw new UnauthorizedException("User not found");
     }
 
     public boolean setToken(String username, String token) {
@@ -46,7 +48,10 @@ public class LoginDao {
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET token = ? WHERE username = ?");
             statement.setString(1, token);
             statement.setString(2, username);
-            return statement.executeUpdate() == 1;
+            var result = statement.executeUpdate() > 0;
+            statement.close();
+            connection.close();
+            return result;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while setting token", e);
         }

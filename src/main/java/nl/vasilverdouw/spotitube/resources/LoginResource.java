@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.LoginService;
 import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
 import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
@@ -26,10 +27,12 @@ public class LoginResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequestDTO loginRequestDTO) {
-        LoginResponseDTO loginResponseDTO = loginService.login(loginRequestDTO);
-        if(loginResponseDTO == null) {
+        try {
+            return Response.ok(loginService.login(loginRequestDTO)).build();
+        } catch (UnauthorizedException e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.ok(loginResponseDTO).build();
     }
 }

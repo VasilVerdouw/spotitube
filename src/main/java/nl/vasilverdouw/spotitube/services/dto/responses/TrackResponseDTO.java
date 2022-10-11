@@ -1,6 +1,6 @@
-package nl.vasilverdouw.spotitube.services.dto;
+package nl.vasilverdouw.spotitube.services.dto.responses;
 
-public class TrackDTO {
+public class TrackResponseDTO {
 private int id;
     private String title;
     private String performer;
@@ -11,7 +11,7 @@ private int id;
     private String description;
     private boolean offlineAvailable;
 
-    public TrackDTO(int id, String title, String performer, int duration, String album, int playcount, String publicationDate, String description, boolean offlineAvailable) {
+    public TrackResponseDTO(int id, String title, String performer, int duration, String album, int playcount, String publicationDate, String description, boolean offlineAvailable) {
         this.id = id;
         this.title = title;
         this.performer = performer;
