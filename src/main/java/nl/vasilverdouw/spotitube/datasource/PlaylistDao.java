@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.services.dto.data.PlaylistDTO;
+import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
 import nl.vasilverdouw.spotitube.services.dto.data.UserDTO;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class PlaylistDao {
     }
 
     public List<PlaylistDTO> getPlaylists() throws ActionFailedException {
-        try  {
+        try {
             Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
             PreparedStatement statement = connection.prepareStatement("SELECT id, name, (SELECT token FROM users u WHERE u.username = p.owner) AS 'token' FROM playlists p");
             ResultSet resultSet = statement.executeQuery();
@@ -42,7 +43,7 @@ public class PlaylistDao {
             connection.close();
             return playlists;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error while getting user", e);
+            logger.log(Level.SEVERE, "Error while getting playlists", e);
         }
         throw new ActionFailedException("Failed to get playlists");
     }
@@ -106,6 +107,70 @@ public class PlaylistDao {
             return result;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while renaming playlist", e);
+        }
+        return false;
+    }
+
+    public List<TrackDTO> getTracksInPlaylist(int playlist) {
+        try {
+            Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
+            PreparedStatement statement = connection.prepareStatement("SELECT id, title, performer, duration, album, playcount, publicationDate, description, offlineAvailable FROM tracks t INNER JOIN tracksInPlaylists tp ON t.id = tp.track WHERE tp.playlist = ?");
+            statement.setInt(1, playlist);
+            ResultSet resultSet = statement.executeQuery();
+            List<TrackDTO> tracks = new ArrayList<>();
+            while(resultSet.next()) {
+                var id = resultSet.getInt("id");
+                var title = resultSet.getString("title");
+                var performer = resultSet.getString("performer");
+                var duration = resultSet.getInt("duration");
+                var album = resultSet.getString("album");
+                var playcount = resultSet.getInt("playcount");
+                // Please note that publication date should most likely be a date value in the database.
+                // Because of time constraints and the fact that it didn't matter in the current context,
+                // I decided to leave it as a string.
+                var publicationDate = resultSet.getString("publicationDate");
+                var description = resultSet.getString("description");
+                var offlineAvailable = resultSet.getBoolean("offlineAvailable");
+                tracks.add(new TrackDTO(id, title, performer, duration, album, playcount, publicationDate, description, offlineAvailable));
+            }
+            statement.close();
+            connection.close();
+            return tracks;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error while getting tracks", e);
+        }
+        throw new ActionFailedException("Failed to get tracks");
+    }
+
+    public boolean addTrackToPlaylist(int playlist, int track, boolean offlineAvailable) {
+        try {
+            Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO tracksInPlaylists (playlist, track, offlineAvailable) VALUES (?, ?, ?)");
+            statement.setInt(1, playlist);
+            statement.setInt(2, track);
+            statement.setBoolean(3, offlineAvailable);
+            var result = statement.executeUpdate() > 0;
+            statement.close();
+            connection.close();
+            return result;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error while adding track to playlist", e);
+        }
+        return false;
+    }
+
+    public boolean removeTrackFromPlaylist(int playlist, int track) {
+        try {
+            Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM tracksInPlaylists WHERE playlist = ? AND track = ?");
+            statement.setInt(1, playlist);
+            statement.setInt(2, track);
+            var result = statement.executeUpdate() > 0;
+            statement.close();
+            connection.close();
+            return result;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error while removing track from playlist", e);
         }
         return false;
     }
