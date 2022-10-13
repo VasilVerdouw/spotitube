@@ -3,7 +3,6 @@ package nl.vasilverdouw.spotitube.services;
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.PlaylistDao;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
-import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.dto.data.PlaylistDTO;
 import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
 import nl.vasilverdouw.spotitube.services.dto.requests.PlaylistRequestDTO;
@@ -26,8 +25,8 @@ public class PlaylistService {
 
     public PlaylistsResponseDTO getPlaylists(String token) throws ActionFailedException {
         var playlists = playlistDao.getPlaylists();
-        var responsePlaylists = mapPlaylistsToResponsePlaylists(playlists, token);
-        return new PlaylistsResponseDTO(responsePlaylists, playlistDao.getLengthOfAllPlaylists());
+        var mappedPlaylists = mapPlaylistsToResponsePlaylists(playlists, token);
+        return new PlaylistsResponseDTO(mappedPlaylists, playlistDao.getLengthOfAllPlaylists());
     }
 
     public PlaylistsResponseDTO deletePlaylist(int id, String token) throws ActionFailedException {
@@ -65,6 +64,14 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to add track to playlist");
     }
 
+    public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) throws ActionFailedException {
+        if(playlistDao.removeTrackFromPlaylist(playlistId, trackId)){
+            return getTracksInPlaylist(playlistId);
+        }
+        throw new ActionFailedException("Failed to remove track from playlist");
+    }
+
+
     private ArrayList<PlaylistResponseDTO> mapPlaylistsToResponsePlaylists(List<PlaylistDTO> playlists, String token) {
         var responsePlaylists = new ArrayList<PlaylistResponseDTO>();
         for (PlaylistDTO playlist : playlists) {
@@ -83,12 +90,5 @@ public class PlaylistService {
             mappedTracks.add(new TrackResponseDTO(track.getId(), track.getTitle(), track.getPerformer(), track.getDuration(), track.getAlbum(), track.getPlaycount(), track.getPublicationDate(), track.getDescription(), track.isOfflineAvailable()));
         }
         return new TracksResponseDTO(mappedTracks);
-    }
-
-    public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) throws ActionFailedException {
-        if(playlistDao.removeTrackFromPlaylist(playlistId, trackId)){
-            return getTracksInPlaylist(playlistId);
-        }
-        throw new ActionFailedException("Failed to remove track from playlist");
     }
 }

@@ -6,10 +6,7 @@ import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.services.dto.data.PlaylistDTO;
 import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,7 +24,7 @@ public class TrackDao {
 
     public List<TrackDTO> getTracksForPlaylist(int playlistId) {
         try {
-            Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
+            Connection connection = databaseProperties.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT id, title, performer, duration, album, playcount, publicationDate, description FROM tracks WHERE id NOT IN (SELECT track FROM tracksInPlaylists WHERE playlist = ?)");
             statement.setInt(1, playlistId);
             ResultSet resultSet = statement.executeQuery();

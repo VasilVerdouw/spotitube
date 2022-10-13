@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.LoginService;
 import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
@@ -31,7 +32,7 @@ public class LoginResource {
             return Response.ok(loginService.login(loginRequestDTO)).build();
         } catch (UnauthorizedException e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        } catch (Exception e) {
+        } catch (ActionFailedException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -1,6 +1,9 @@
 package nl.vasilverdouw.spotitube.datasource.util;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,10 @@ public class DatabaseProperties {
     public String connectionString()
     {
         return properties.getProperty("connectionString");
+    }
+
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(connectionString());
     }
 
 }
