@@ -49,7 +49,7 @@ public class PlaylistResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(PlaylistRequestDTO playlist, @QueryParam("token") String token) {
         try {
-            return Response.ok(playlistService.addPlaylist(playlist, token)).build();
+            return Response.status(Response.Status.CREATED).entity(playlistService.addPlaylist(playlist, token)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -84,7 +84,7 @@ public class PlaylistResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addTrackToPlaylist(@QueryParam("token") String token, @PathParam("id") int id, TrackRequestDTO track) {
         try {
-            return Response.ok(playlistService.addTrackToPlaylist(track, id)).build();
+            return Response.status(Response.Status.CREATED).entity(playlistService.addTrackToPlaylist(track, id)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

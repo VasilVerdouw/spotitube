@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.services.dto;
+package nl.vasilverdouw.spotitube.services;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.TrackDao;

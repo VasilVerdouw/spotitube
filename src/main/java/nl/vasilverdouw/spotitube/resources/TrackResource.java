@@ -7,7 +7,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import nl.vasilverdouw.spotitube.services.dto.TrackService;
+import nl.vasilverdouw.spotitube.services.TrackService;
 
 @Path("/tracks")
 public class TrackResource {
