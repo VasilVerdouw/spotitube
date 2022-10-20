@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.services.dto.data;
+package nl.vasilverdouw.spotitube.dto.data;
 
 import java.util.ArrayList;
 import java.util.List;

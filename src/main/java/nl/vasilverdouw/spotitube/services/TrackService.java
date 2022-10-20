@@ -1,10 +1,10 @@
 package nl.vasilverdouw.spotitube.services;
 
 import jakarta.inject.Inject;
-import nl.vasilverdouw.spotitube.datasource.TrackDao;
-import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.TrackResponseDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.TracksResponseDTO;
+import nl.vasilverdouw.spotitube.datasource.dao.TrackDao;
+import nl.vasilverdouw.spotitube.dto.data.TrackDTO;
+import nl.vasilverdouw.spotitube.dto.responses.TrackResponseDTO;
+import nl.vasilverdouw.spotitube.dto.responses.TracksResponseDTO;
 
 import java.util.ArrayList;
 import java.util.List;

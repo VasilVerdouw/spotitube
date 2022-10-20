@@ -1,13 +1,11 @@
-package nl.vasilverdouw.spotitube.datasource;
+package nl.vasilverdouw.spotitube.datasource.dao;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
-import nl.vasilverdouw.spotitube.services.dto.data.PlaylistDTO;
-import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
-import nl.vasilverdouw.spotitube.services.dto.data.UserDTO;
+import nl.vasilverdouw.spotitube.dto.data.PlaylistDTO;
+import nl.vasilverdouw.spotitube.dto.data.TrackDTO;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

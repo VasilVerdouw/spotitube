@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.resources;
+package nl.vasilverdouw.spotitube.api.resources;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -7,8 +7,7 @@ import jakarta.ws.rs.core.Response;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.LoginService;
-import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
+import nl.vasilverdouw.spotitube.dto.requests.LoginRequestDTO;
 
 @Path("/login")
 public class LoginResource {

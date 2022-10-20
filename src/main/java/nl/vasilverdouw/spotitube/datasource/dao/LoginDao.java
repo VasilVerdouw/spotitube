@@ -1,17 +1,14 @@
-package nl.vasilverdouw.spotitube.datasource;
+package nl.vasilverdouw.spotitube.datasource.dao;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
 import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
-import nl.vasilverdouw.spotitube.services.dto.data.UserDTO;
-import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
+import nl.vasilverdouw.spotitube.dto.data.UserDTO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

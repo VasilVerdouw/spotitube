@@ -1,11 +1,11 @@
 package nl.vasilverdouw.spotitube.services;
 
 import jakarta.inject.Inject;
-import nl.vasilverdouw.spotitube.datasource.LoginDao;
+import nl.vasilverdouw.spotitube.datasource.dao.LoginDao;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
-import nl.vasilverdouw.spotitube.services.dto.requests.LoginRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
+import nl.vasilverdouw.spotitube.dto.requests.LoginRequestDTO;
+import nl.vasilverdouw.spotitube.dto.responses.LoginResponseDTO;
 
 import java.util.UUID;
 

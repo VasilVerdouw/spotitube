@@ -1,12 +1,12 @@
-package nl.vasilverdouw.spotitube.resources;
+package nl.vasilverdouw.spotitube.api.resources;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import nl.vasilverdouw.spotitube.services.PlaylistService;
-import nl.vasilverdouw.spotitube.services.dto.requests.PlaylistRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.requests.TrackRequestDTO;
+import nl.vasilverdouw.spotitube.dto.requests.PlaylistRequestDTO;
+import nl.vasilverdouw.spotitube.dto.requests.TrackRequestDTO;
 
 @Path("/playlists")
 public class PlaylistResource {

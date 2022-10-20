@@ -1,16 +1,16 @@
 package nl.vasilverdouw.spotitube.services;
 
 import jakarta.inject.Inject;
-import nl.vasilverdouw.spotitube.datasource.PlaylistDao;
+import nl.vasilverdouw.spotitube.datasource.dao.PlaylistDao;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
-import nl.vasilverdouw.spotitube.services.dto.data.PlaylistDTO;
-import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
-import nl.vasilverdouw.spotitube.services.dto.requests.PlaylistRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.requests.TrackRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.PlaylistResponseDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.PlaylistsResponseDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.TrackResponseDTO;
-import nl.vasilverdouw.spotitube.services.dto.responses.TracksResponseDTO;
+import nl.vasilverdouw.spotitube.dto.data.PlaylistDTO;
+import nl.vasilverdouw.spotitube.dto.data.TrackDTO;
+import nl.vasilverdouw.spotitube.dto.requests.PlaylistRequestDTO;
+import nl.vasilverdouw.spotitube.dto.requests.TrackRequestDTO;
+import nl.vasilverdouw.spotitube.dto.responses.PlaylistResponseDTO;
+import nl.vasilverdouw.spotitube.dto.responses.PlaylistsResponseDTO;
+import nl.vasilverdouw.spotitube.dto.responses.TrackResponseDTO;
+import nl.vasilverdouw.spotitube.dto.responses.TracksResponseDTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.services.dto.requests;
+package nl.vasilverdouw.spotitube.dto.requests;
 
 public class LoginRequestDTO {
     private String user;

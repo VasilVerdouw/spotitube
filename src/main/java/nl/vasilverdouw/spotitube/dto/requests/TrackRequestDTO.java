@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.services.dto.requests;
+package nl.vasilverdouw.spotitube.dto.requests;
 
 public class TrackRequestDTO {
     private int id;

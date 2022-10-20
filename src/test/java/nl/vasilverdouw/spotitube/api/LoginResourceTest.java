@@ -1,10 +1,11 @@
-package nl.vasilverdouw.spotitube.resources;
+package nl.vasilverdouw.spotitube.api;
 
 import jakarta.ws.rs.core.Response;
+import nl.vasilverdouw.spotitube.api.resources.LoginResource;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.services.LoginService;
-import nl.vasilverdouw.spotitube.services.dto.responses.LoginResponseDTO;
+import nl.vasilverdouw.spotitube.dto.responses.LoginResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.resources;
+package nl.vasilverdouw.spotitube.api.resources;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

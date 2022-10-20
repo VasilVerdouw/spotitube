@@ -1,6 +1,8 @@
-package nl.vasilverdouw.spotitube.services.dto.responses;
+package nl.vasilverdouw.spotitube.dto.data;
 
-public class TrackResponseDTO {
+import java.sql.Date;
+
+public class TrackDTO {
     private int id;
     private String title;
     private String performer;
@@ -11,10 +13,7 @@ public class TrackResponseDTO {
     private String description;
     private boolean offlineAvailable;
 
-    // TrackResponseDTO is nearly the exact same class as TrackDTO.
-    // It could be argued that they should remain as one. However, I think it's better to keep
-    // them separate to stay consistent and to allow for future changes.
-    public TrackResponseDTO(int id, String title, String performer, int duration, String album, int playcount, String publicationDate, String description, boolean offlineAvailable) {
+    public TrackDTO(int id, String title, String performer, int duration, String album, int playcount, String publicationDate, String description, boolean offlineAvailable) {
         this.id = id;
         this.title = title;
         this.performer = performer;

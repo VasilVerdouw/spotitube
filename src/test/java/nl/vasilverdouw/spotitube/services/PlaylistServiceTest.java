@@ -1,9 +1,9 @@
 package nl.vasilverdouw.spotitube.services;
 
-import nl.vasilverdouw.spotitube.datasource.PlaylistDao;
+import nl.vasilverdouw.spotitube.datasource.dao.PlaylistDao;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
-import nl.vasilverdouw.spotitube.services.dto.requests.PlaylistRequestDTO;
-import nl.vasilverdouw.spotitube.services.dto.requests.TrackRequestDTO;
+import nl.vasilverdouw.spotitube.dto.requests.PlaylistRequestDTO;
+import nl.vasilverdouw.spotitube.dto.requests.TrackRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

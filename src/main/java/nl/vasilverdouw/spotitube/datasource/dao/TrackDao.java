@@ -1,10 +1,9 @@
-package nl.vasilverdouw.spotitube.datasource;
+package nl.vasilverdouw.spotitube.datasource.dao;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
-import nl.vasilverdouw.spotitube.services.dto.data.PlaylistDTO;
-import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
+import nl.vasilverdouw.spotitube.dto.data.TrackDTO;
 
 import java.sql.*;
 import java.util.ArrayList;

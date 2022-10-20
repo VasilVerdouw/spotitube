@@ -1,8 +1,8 @@
 package nl.vasilverdouw.spotitube.datasource;
 
+import nl.vasilverdouw.spotitube.datasource.dao.TrackDao;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
-import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -33,7 +32,6 @@ public class TrackDaoTest {
         Connection connection = mock(Connection.class);
         PreparedStatement statement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
-        List<TrackDTO> tracks = mock(List.class);
 
         when(databaseProperties.getConnection()).thenReturn(connection);
         when(connection.prepareStatement(anyString())).thenReturn(statement);

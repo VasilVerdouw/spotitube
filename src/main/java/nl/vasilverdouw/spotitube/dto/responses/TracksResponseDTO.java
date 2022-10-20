@@ -1,6 +1,4 @@
-package nl.vasilverdouw.spotitube.services.dto.responses;
-
-import nl.vasilverdouw.spotitube.services.dto.data.TrackDTO;
+package nl.vasilverdouw.spotitube.dto.responses;
 
 import java.util.List;
 
