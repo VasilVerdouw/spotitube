@@ -2,7 +2,6 @@ package nl.vasilverdouw.spotitube.datasource.dao;
 
 import jakarta.inject.Inject;
 import nl.vasilverdouw.spotitube.datasource.util.DatabaseProperties;
-import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.dto.data.UserDTO;
 
 import java.sql.Connection;
@@ -22,7 +21,7 @@ public class LoginDao {
         this.databaseProperties = databaseProperties;
     }
 
-    public UserDTO getUser(String username) throws UnauthorizedException {
+    public UserDTO getUser(String username) {
         try  {
             Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
@@ -36,22 +35,22 @@ public class LoginDao {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while getting user", e);
         }
-        throw new UnauthorizedException("User not found");
+        return new UserDTO();
     }
 
-    public boolean setToken(String username, String token) {
+    public int setToken(String username, String token) {
         try {
             Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
+
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET token = ? WHERE username = ?");
             statement.setString(1, token);
             statement.setString(2, username);
-            var result = statement.executeUpdate() > 0;
-            statement.close();
-            connection.close();
-            return result;
+
+            // Returns amount of updated rows
+            return statement.executeUpdate();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while setting token", e);
         }
-        return false;
+        return 0;
     }
 }

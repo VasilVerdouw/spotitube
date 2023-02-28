@@ -6,6 +6,9 @@ public class UserDTO {
     private String token;
     private String fullname;
 
+    public UserDTO() {
+    }
+
     public UserDTO(String username, String password, String token, String fullname) {
         this.username = username;
         this.password = password;
