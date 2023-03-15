@@ -22,9 +22,8 @@ public class LoginService {
         var username = loginRequestDTO.getUser();
         var password = loginRequestDTO.getPassword();
         var user = loginDao.getUser(username);
-        // We do not need to check if the user is null, because the loginDao will return an empty user if the user is not found
-        // This way we also don't reveal if the user exists or not which would be a security risk.
-        if (user.getPassword().equals(password)) {
+        // This way we don't reveal if the user exists or not which would be a security risk.
+        if (user != null && user.getPassword().equals(password)) {
             var token = generateToken();
             if (loginDao.setToken(username, token) > 0) {
                 return new LoginResponseDTO(token, user.getFullname());

@@ -25,9 +25,6 @@ public class PlaylistDTO {
     // To allow easier comparisons, it will never return null.
     // This is possible because the owner is only used for comparing with non-empty values.
     public String getOwner() {
-        if(owner == null) {
-            return "";
-        }
         return owner;
     }
 

@@ -23,9 +23,9 @@ public class PlaylistService {
         this.playlistDao = playlistDao;
     }
 
-    public PlaylistsResponseDTO getPlaylists(String token) throws ActionFailedException {
-        var playlists = playlistDao.getPlaylists();
-        var mappedPlaylists = mapPlaylistsToResponsePlaylists(playlists, token);
+    public PlaylistsResponseDTO getPlaylists(String token) {
+        var result = playlistDao.getPlaylists();
+        var mappedPlaylists = mapPlaylistsToResponsePlaylists(result, token);
         return new PlaylistsResponseDTO(mappedPlaylists, playlistDao.getLengthOfAllPlaylists());
     }
 
@@ -71,11 +71,11 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to remove track from playlist");
     }
 
-
+    // Some simple mapping methods. Could be done with a library like MapStruct
     private ArrayList<PlaylistResponseDTO> mapPlaylistsToResponsePlaylists(List<PlaylistDTO> playlists, String token) {
         var responsePlaylists = new ArrayList<PlaylistResponseDTO>();
         for (PlaylistDTO playlist : playlists) {
-            responsePlaylists.add(new PlaylistResponseDTO(playlist.getId(), playlist.getName(), playlist.getOwner().equals(token)));
+            responsePlaylists.add(new PlaylistResponseDTO(playlist.getId(), playlist.getName(), token.equals(playlist.getOwner())));
         }
         return responsePlaylists;
     }

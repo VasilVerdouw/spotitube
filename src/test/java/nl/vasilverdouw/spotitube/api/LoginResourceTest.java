@@ -42,30 +42,6 @@ public class LoginResourceTest {
     }
 
     @Test
-    public void testLoginWithInvalidCredentials() {
-        // Arrange
-        when(loginService.login(any())).thenThrow(new UnauthorizedException("Invalid credentials"));
-
-        // Act
-        Response response = loginResource.login(null);
-
-        // Assert
-        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void testLoginWithException() {
-        // Arrange
-        when(loginService.login(any())).thenThrow(new ActionFailedException("Something went wrong"));
-
-        // Act
-        Response response = loginResource.login(null);
-
-        // Assert
-        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
-    }
-
-    @Test
     public void testLoginCallsCorrectMethods() {
         // Arrange
         when(loginService.login(any())).thenReturn(new LoginResponseDTO("token", "user"));

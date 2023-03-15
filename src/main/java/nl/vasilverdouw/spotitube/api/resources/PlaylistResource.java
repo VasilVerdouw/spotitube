@@ -26,11 +26,7 @@ public class PlaylistResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPlaylists(@QueryParam("token") String token) {
-        try {
-            return Response.ok(playlistService.getPlaylists(token)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(playlistService.getPlaylists(token)).build();
     }
 
     @DELETE

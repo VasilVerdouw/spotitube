@@ -25,7 +25,7 @@ public class PlaylistDao {
         this.databaseProperties = databaseProperties;
     }
 
-    public List<PlaylistDTO> getPlaylists() throws ActionFailedException {
+    public List<PlaylistDTO> getPlaylists() {
         try {
             Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
             PreparedStatement statement = connection.prepareStatement("SELECT id, name, (SELECT token FROM users u WHERE u.username = p.owner) AS 'token' FROM playlists p");
@@ -43,7 +43,7 @@ public class PlaylistDao {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while getting playlists", e);
         }
-        throw new ActionFailedException("Failed to get playlists");
+        return new ArrayList<>();
     }
 
     public int getLengthOfAllPlaylists() throws ActionFailedException {
@@ -59,7 +59,8 @@ public class PlaylistDao {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while getting length of playlists", e);
         }
-        throw new ActionFailedException("Failed to get length of playlists");
+        // I've chosen to return 0 so if something goes wrong, the user will still be able to view the playlists.
+        return 0;
     }
 
     public boolean deletePlaylist(int id) {

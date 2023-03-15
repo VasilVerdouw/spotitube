@@ -35,7 +35,7 @@ public class LoginDao {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while getting user", e);
         }
-        return new UserDTO();
+        return null;
     }
 
     public int setToken(String username, String token) {
