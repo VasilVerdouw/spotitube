@@ -70,10 +70,6 @@ public class PlaylistResource {
     @Path("/{id}/tracks/{trackId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeTrackFromPlaylist(@QueryParam("token") String token, @PathParam("id") int id, @PathParam("trackId") int trackId) {
-        try {
-            return Response.ok(playlistService.removeTrackFromPlaylist(id, trackId)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(playlistService.removeTrackFromPlaylist(id, trackId)).build();
     }
 }

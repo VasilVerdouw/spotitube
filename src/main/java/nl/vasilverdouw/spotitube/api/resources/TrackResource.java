@@ -27,10 +27,6 @@ public class TrackResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTracksForPlaylist(@QueryParam("token") String token, @QueryParam("forPlaylist") int playlistId) {
-        try {
-            return Response.ok(trackService.getTracksForPlaylist(playlistId)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(trackService.getTracksForPlaylist(playlistId)).build();
     }
 }

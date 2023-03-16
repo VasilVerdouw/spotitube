@@ -71,7 +71,7 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to get tracks in playlist");
     }
 
-    public TracksResponseDTO addTrackToPlaylist(TrackRequestDTO track, int id) throws ActionFailedException {
+    public TracksResponseDTO addTrackToPlaylist(TrackRequestDTO track, int id) {
         if(playlistDao.addTrackToPlaylist(id, track.getId(), track.isOfflineAvailable()) > 0) {
             return getTracksInPlaylist(id);
         }
@@ -79,7 +79,7 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to add track to playlist");
     }
 
-    public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) throws ActionFailedException {
+    public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) {
         if(playlistDao.removeTrackFromPlaylist(playlistId, trackId) > 0){
             return getTracksInPlaylist(playlistId);
         }

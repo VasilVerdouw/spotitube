@@ -22,7 +22,7 @@ public class BaseDao {
         return connection.prepareStatement(statement);
     }
 
-    public int executeUpdate(String statement, Object... parameters) {
+    protected int executeUpdate(String statement, Object... parameters) {
         // try (...) will implement auto closing making it unnecessary to close the connection and statement manually
         try (PreparedStatement preparedStatement = prepareStatement(statement)) {
             for (int i = 0; i < parameters.length; i++) {
@@ -35,7 +35,7 @@ public class BaseDao {
         return 0;
     }
 
-    public ResultSet executeQuery(PreparedStatement preparedStatement, Object... parameters) {
+    protected ResultSet executeQuery(PreparedStatement preparedStatement, Object... parameters) {
         try {
             for (int i = 0; i < parameters.length; i++) {
                 preparedStatement.setObject(i + 1, parameters[i]);

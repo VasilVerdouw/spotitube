@@ -5,6 +5,7 @@ import nl.vasilverdouw.spotitube.datasource.dao.TrackDao;
 import nl.vasilverdouw.spotitube.dto.data.TrackDTO;
 import nl.vasilverdouw.spotitube.dto.responses.TrackResponseDTO;
 import nl.vasilverdouw.spotitube.dto.responses.TracksResponseDTO;
+import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,11 @@ public class TrackService {
 
     public TracksResponseDTO getTracksForPlaylist(int playlistId) {
         var tracks = trackDao.getTracksForPlaylist(playlistId);
-        return mapTracksListToTracksResponseDTO(tracks);
+        if(tracks != null) {
+            return mapTracksListToTracksResponseDTO(tracks);
+        }
+
+        throw new ActionFailedException("Could not get tracks for playlist with id " + playlistId);
     }
 
     public TracksResponseDTO mapTracksListToTracksResponseDTO(List<TrackDTO> tracks) {
