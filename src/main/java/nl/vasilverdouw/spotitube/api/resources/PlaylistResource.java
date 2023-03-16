@@ -33,22 +33,14 @@ public class PlaylistResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePlaylist(@PathParam("id") int id, @QueryParam("token") String token) {
-        try {
-            return Response.ok(playlistService.deletePlaylist(id, token)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(playlistService.deletePlaylist(id, token)).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(PlaylistRequestDTO playlist, @QueryParam("token") String token) {
-        try {
-            return Response.status(Response.Status.CREATED).entity(playlistService.addPlaylist(playlist, token)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.status(Response.Status.CREATED).entity(playlistService.addPlaylist(playlist, token)).build();
     }
 
     @PUT
@@ -56,22 +48,14 @@ public class PlaylistResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response editPlaylist(PlaylistRequestDTO playlist, @QueryParam("token") String token) {
-        try {
-            return Response.ok(playlistService.renamePlaylist(playlist, token)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(playlistService.renamePlaylist(playlist, token)).build();
     }
 
     @GET
     @Path("/{id}/tracks")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTracksInPlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
-        try {
-            return Response.ok(playlistService.getTracksInPlaylist(id)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(playlistService.getTracksInPlaylist(id)).build();
     }
 
     @POST
@@ -79,11 +63,7 @@ public class PlaylistResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addTrackToPlaylist(@QueryParam("token") String token, @PathParam("id") int id, TrackRequestDTO track) {
-        try {
-            return Response.status(Response.Status.CREATED).entity(playlistService.addTrackToPlaylist(track, id)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.status(Response.Status.CREATED).entity(playlistService.addTrackToPlaylist(track, id)).build();
     }
 
     @DELETE

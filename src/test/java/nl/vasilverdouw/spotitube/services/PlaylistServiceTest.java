@@ -55,7 +55,7 @@ public class PlaylistServiceTest {
     @Test
     public void testDeletePlaylistCallsCorrectMethods() {
         // Arrange
-        when(playlistDao.deletePlaylist(1)).thenReturn(true);
+        when(playlistDao.deletePlaylist(1)).thenReturn(1);
 
         // Act
         playlistService.deletePlaylist(1, "token");
@@ -67,7 +67,7 @@ public class PlaylistServiceTest {
     @Test
     public void testAddPlaylistCallsCorrectMethods() {
         // Arrange
-        when(playlistDao.addPlaylist(any())).thenReturn(true);
+        when(playlistDao.addPlaylist(any())).thenReturn(1);
 
         // Act
         playlistService.addPlaylist(new PlaylistRequestDTO(), "token");
@@ -79,7 +79,7 @@ public class PlaylistServiceTest {
     @Test
     public void testRenamePlaylistCallsCorrectMethods() {
         // Arrange
-        when(playlistDao.renamePlaylist(any())).thenReturn(true);
+        when(playlistDao.renamePlaylist(any())).thenReturn(1);
 
         // Act
         playlistService.renamePlaylist(new PlaylistRequestDTO(), "token");
@@ -103,7 +103,7 @@ public class PlaylistServiceTest {
     @Test
     public void testAddTrackToPlaylistCallsCorrectMethods() {
         // Arrange
-        when(playlistDao.addTrackToPlaylist(anyInt(), anyInt(), anyBoolean())).thenReturn(true);
+        when(playlistDao.addTrackToPlaylist(anyInt(), anyInt(), anyBoolean())).thenReturn(1);
         var track = new TrackRequestDTO();
         track.setId(1);
         track.setOfflineAvailable(true);
@@ -118,7 +118,7 @@ public class PlaylistServiceTest {
     @Test
     public void testRemoveTrackFromPlaylistCallsCorrectMethods() {
         // Arrange
-        when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(true);
+        when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(1);
 
         // Act
         playlistService.removeTrackFromPlaylist(1, 1);
@@ -130,7 +130,7 @@ public class PlaylistServiceTest {
     @Test
     public void testDeletePlaylistThrowsException() {
         // Arrange
-        when(playlistDao.deletePlaylist(anyInt())).thenReturn(false);
+        when(playlistDao.deletePlaylist(anyInt())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.deletePlaylist(1, "token"));
@@ -139,7 +139,7 @@ public class PlaylistServiceTest {
     @Test
     public void testAddPlaylistThrowsException() {
         // Arrange
-        when(playlistDao.addPlaylist(any())).thenReturn(false);
+        when(playlistDao.addPlaylist(any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.addPlaylist(new PlaylistRequestDTO(), "token"));
@@ -148,7 +148,7 @@ public class PlaylistServiceTest {
     @Test
     public void testRenamePlaylistThrowsException() {
         // Arrange
-        when(playlistDao.renamePlaylist(any())).thenReturn(false);
+        when(playlistDao.renamePlaylist(any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.renamePlaylist(new PlaylistRequestDTO(), "token"));
@@ -157,7 +157,7 @@ public class PlaylistServiceTest {
     @Test
     public void testAddTrackToPlaylistThrowsException() {
         // Arrange
-        when(playlistDao.addTrackToPlaylist(anyInt(), anyInt(), anyBoolean())).thenReturn(false);
+        when(playlistDao.addTrackToPlaylist(anyInt(), anyInt(), anyBoolean())).thenReturn(1);
         var track = new TrackRequestDTO();
         track.setId(1);
         track.setOfflineAvailable(true);
@@ -169,7 +169,7 @@ public class PlaylistServiceTest {
     @Test
     public void testRemoveTrackFromPlaylistThrowsException() {
         // Arrange
-        when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(false);
+        when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));

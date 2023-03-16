@@ -25,49 +25,65 @@ public class PlaylistService {
 
     public PlaylistsResponseDTO getPlaylists(String token) {
         var result = playlistDao.getPlaylists();
+
+        if(result == null) {
+            throw new ActionFailedException("Failed to get playlists");
+        }
+
         var mappedPlaylists = mapPlaylistsToResponsePlaylists(result, token);
         return new PlaylistsResponseDTO(mappedPlaylists, playlistDao.getLengthOfAllPlaylists());
     }
 
-    public PlaylistsResponseDTO deletePlaylist(int id, String token) throws ActionFailedException {
-        if(playlistDao.deletePlaylist(id)){
+    public PlaylistsResponseDTO deletePlaylist(int id, String token) {
+        // Might want to check first if the playlist exists, but that's not necessary in this case.
+        // Difference is not that big either way but will cost 1 more database call.
+        if(playlistDao.deletePlaylist(id) > 0){
             return getPlaylists(token);
         }
+
         throw new ActionFailedException("Failed to delete playlist");
     }
 
-    public PlaylistsResponseDTO addPlaylist(PlaylistRequestDTO playlist, String token) throws ActionFailedException {
+    public PlaylistsResponseDTO addPlaylist(PlaylistRequestDTO playlist, String token) {
         var mappedPlaylist = mapPlaylistRequestToPlaylist(playlist, token);
-        if(playlistDao.addPlaylist(mappedPlaylist)){
+        if(playlistDao.addPlaylist(mappedPlaylist) > 0){
             return getPlaylists(token);
         }
+
         throw new ActionFailedException("Failed to add playlist");
     }
 
-    public PlaylistsResponseDTO renamePlaylist(PlaylistRequestDTO playlist, String token) throws ActionFailedException {
+    public PlaylistsResponseDTO renamePlaylist(PlaylistRequestDTO playlist, String token) {
         var mappedPlaylist = mapPlaylistRequestToPlaylist(playlist, token);
-        if(playlistDao.renamePlaylist(mappedPlaylist)){
+        if(playlistDao.renamePlaylist(mappedPlaylist) > 0){
             return getPlaylists(token);
         }
+
         throw new ActionFailedException("Failed to rename playlist");
     }
 
-    public TracksResponseDTO getTracksInPlaylist(int id) throws ActionFailedException {
+    public TracksResponseDTO getTracksInPlaylist(int id) {
         var tracks = playlistDao.getTracksInPlaylist(id);
-        return mapTracksListToTracksResponseDTO(tracks);
+        if(tracks != null) {
+            return mapTracksListToTracksResponseDTO(tracks);
+        }
+
+        throw new ActionFailedException("Failed to get tracks in playlist");
     }
 
     public TracksResponseDTO addTrackToPlaylist(TrackRequestDTO track, int id) throws ActionFailedException {
-        if(playlistDao.addTrackToPlaylist(id, track.getId(), track.isOfflineAvailable())) {
+        if(playlistDao.addTrackToPlaylist(id, track.getId(), track.isOfflineAvailable()) > 0) {
             return getTracksInPlaylist(id);
         }
+
         throw new ActionFailedException("Failed to add track to playlist");
     }
 
     public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) throws ActionFailedException {
-        if(playlistDao.removeTrackFromPlaylist(playlistId, trackId)){
+        if(playlistDao.removeTrackFromPlaylist(playlistId, trackId) > 0){
             return getTracksInPlaylist(playlistId);
         }
+
         throw new ActionFailedException("Failed to remove track from playlist");
     }
 
