@@ -14,9 +14,7 @@ public class PlaylistResource {
 
     public PlaylistResource() {}
 
-    public PlaylistResource(PlaylistService playlistService) {
-        this.playlistService = playlistService;
-    }
+    public PlaylistResource(PlaylistService playlistService) { this.playlistService = playlistService; }
 
     @Inject
     public void setPlaylistService(PlaylistService playlistService) {
@@ -47,8 +45,8 @@ public class PlaylistResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Response editPlaylist(PlaylistRequestDTO playlist, @QueryParam("token") String token) {
-        return Response.ok(playlistService.renamePlaylist(playlist, token)).build();
+    public Response editPlaylist(@PathParam("id") int id, @QueryParam("token") String token, PlaylistRequestDTO playlist) {
+        return Response.ok(playlistService.renamePlaylist(id, token, playlist)).build();
     }
 
     @GET

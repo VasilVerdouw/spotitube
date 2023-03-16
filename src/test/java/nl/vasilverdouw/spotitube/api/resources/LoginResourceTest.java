@@ -1,4 +1,4 @@
-package nl.vasilverdouw.spotitube.api;
+package nl.vasilverdouw.spotitube.api.resources;
 
 import jakarta.ws.rs.core.Response;
 import nl.vasilverdouw.spotitube.api.resources.LoginResource;
@@ -26,10 +26,6 @@ public class LoginResourceTest {
     @Test
     public void testLoginWithValidCredentials() {
         // Arrange
-        loginService = mock(LoginService.class);
-        loginResource = new LoginResource();
-        loginResource.setLoginService(loginService);
-
         var expectedResponse = new LoginResponseDTO("token", "user");
         when(loginService.login(any())).thenReturn(expectedResponse);
 

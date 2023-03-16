@@ -11,6 +11,7 @@ import nl.vasilverdouw.spotitube.dto.responses.PlaylistResponseDTO;
 import nl.vasilverdouw.spotitube.dto.responses.PlaylistsResponseDTO;
 import nl.vasilverdouw.spotitube.dto.responses.TrackResponseDTO;
 import nl.vasilverdouw.spotitube.dto.responses.TracksResponseDTO;
+import nl.vasilverdouw.spotitube.exceptions.BadRequestException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,11 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to add playlist");
     }
 
-    public PlaylistsResponseDTO renamePlaylist(PlaylistRequestDTO playlist, String token) {
+    public PlaylistsResponseDTO renamePlaylist(int id, String token, PlaylistRequestDTO playlist) {
+        if(playlist.getId() != id) {
+            throw new BadRequestException("Id in path does not match id in body");
+        }
+
         var mappedPlaylist = mapPlaylistRequestToPlaylist(playlist, token);
         if(playlistDao.renamePlaylist(mappedPlaylist) > 0){
             return getPlaylists(token);

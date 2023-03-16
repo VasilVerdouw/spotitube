@@ -82,7 +82,7 @@ public class PlaylistServiceTest {
         when(playlistDao.renamePlaylist(any())).thenReturn(1);
 
         // Act
-        playlistService.renamePlaylist(new PlaylistRequestDTO(), "token");
+        playlistService.renamePlaylist(1, "token", new PlaylistRequestDTO());
 
         // Assert
         verify(playlistDao, times(1)).renamePlaylist(any());
@@ -151,7 +151,7 @@ public class PlaylistServiceTest {
         when(playlistDao.renamePlaylist(any())).thenReturn(1);
 
         // Act & Assert
-        assertThrows(ActionFailedException.class, () -> playlistService.renamePlaylist(new PlaylistRequestDTO(), "token"));
+        assertThrows(ActionFailedException.class, () -> playlistService.renamePlaylist(1, "token", new PlaylistRequestDTO()));
     }
 
     @Test
