@@ -13,8 +13,9 @@ public class LoginService {
 
     private LoginDao loginDao;
 
+    public LoginService() {}
     @Inject
-    public void setLoginDao(LoginDao loginDao) {
+    public LoginService(LoginDao loginDao) {
         this.loginDao = loginDao;
     }
 

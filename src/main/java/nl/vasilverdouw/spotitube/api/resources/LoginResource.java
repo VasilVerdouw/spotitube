@@ -11,13 +11,10 @@ import nl.vasilverdouw.spotitube.dto.requests.LoginRequestDTO;
 public class LoginResource {
     private LoginService loginService;
 
+    // Deze constructor is nodig voor JAXRS.
     public LoginResource() {}
-    public LoginResource(LoginService loginService) {
-        this.loginService = loginService;
-    }
-
     @Inject
-    public void setLoginService(LoginService loginService) {
+    public LoginResource(LoginService loginService) {
         this.loginService = loginService;
     }
 

@@ -14,13 +14,8 @@ public class TrackResource {
     private TrackService trackService;
 
     public TrackResource() {}
-
-    public TrackResource(TrackService trackService) {
-        this.trackService = trackService;
-    }
-
     @Inject
-    public void setTrackService(TrackService trackService) {
+    public TrackResource(TrackService trackService) {
         this.trackService = trackService;
     }
 

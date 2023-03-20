@@ -13,8 +13,10 @@ import java.util.List;
 public class TrackService {
     private TrackDao trackDao = new TrackDao();
 
+    public TrackService() {}
+
     @Inject
-    public void setTrackDao(TrackDao trackDao) {
+    public TrackService(TrackDao trackDao) {
         this.trackDao = trackDao;
     }
 

@@ -19,8 +19,10 @@ import java.util.List;
 public class PlaylistService {
     private PlaylistDao playlistDao = new PlaylistDao();
 
+    public PlaylistService() {}
+
     @Inject
-    public void setPlaylistDao(PlaylistDao playlistDao) {
+    public PlaylistService(PlaylistDao playlistDao) {
         this.playlistDao = playlistDao;
     }
 

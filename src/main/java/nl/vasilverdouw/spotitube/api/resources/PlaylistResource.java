@@ -14,12 +14,9 @@ public class PlaylistResource {
 
     public PlaylistResource() {}
 
+    @Inject
     public PlaylistResource(PlaylistService playlistService) { this.playlistService = playlistService; }
 
-    @Inject
-    public void setPlaylistService(PlaylistService playlistService) {
-        this.playlistService = playlistService;
-    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
