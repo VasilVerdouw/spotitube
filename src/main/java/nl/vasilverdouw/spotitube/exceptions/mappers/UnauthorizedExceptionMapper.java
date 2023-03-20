@@ -9,8 +9,7 @@ import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 public class UnauthorizedExceptionMapper implements ExceptionMapper<UnauthorizedException> {
     public Response toResponse(UnauthorizedException e) {
         return Response.status(Response.Status.UNAUTHORIZED)
-                .entity(e.getMessage())
-                .type("text/plain")
+                .entity("Unauthorized.")
                 .build();
     }
 }

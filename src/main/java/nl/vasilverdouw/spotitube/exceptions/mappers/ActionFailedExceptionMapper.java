@@ -9,8 +9,7 @@ import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 public class ActionFailedExceptionMapper implements ExceptionMapper<ActionFailedException> {
     public Response toResponse(ActionFailedException e) {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(e.getMessage())
-                .type("text/plain")
+                .entity("Action failed.")
                 .build();
     }
 }

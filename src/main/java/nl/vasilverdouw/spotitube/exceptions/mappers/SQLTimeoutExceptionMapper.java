@@ -10,8 +10,7 @@ import java.sql.SQLTimeoutException;
 public class SQLTimeoutExceptionMapper implements ExceptionMapper<SQLTimeoutException> {
     public Response toResponse(SQLTimeoutException e) {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(e.getMessage())
-                .type("text/plain")
+                .entity("Database timeout.")
                 .build();
     }
 }

@@ -7,8 +7,7 @@ import nl.vasilverdouw.spotitube.exceptions.BadRequestException;
 public class BadRequestExceptionMapper implements ExceptionMapper<BadRequestException> {
     public Response toResponse(BadRequestException e) {
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(e.getMessage())
-                .type("text/plain")
+                .entity("Bad request.")
                 .build();
     }
 }

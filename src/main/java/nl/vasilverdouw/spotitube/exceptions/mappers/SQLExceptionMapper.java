@@ -10,8 +10,7 @@ import java.sql.SQLException;
 public class SQLExceptionMapper implements ExceptionMapper<SQLException> {
     public Response toResponse(SQLException e) {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(e.getMessage())
-                .type("text/plain")
+                .entity("Database error.")
                 .build();
     }
 }
