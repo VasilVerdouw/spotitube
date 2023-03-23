@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
@@ -129,19 +130,19 @@ public class PlaylistResrouceTest {
     }
 
     @Test
-    public void getTracksInPlaylistCallsCorrectMethod() {
+    public void testGetTracksInPlaylistCallsCorrectMethod() {
         // Arrange
         when(playlistService.getTracksInPlaylist(anyInt())).thenReturn(null);
 
         // Act
-        playlistResource.getTracksInPlaylist(any(), anyInt());
+        playlistResource.getTracksInPlaylist(null, 0);
 
         // Assert
-        verify(playlistService, times(1)).getTracksInPlaylist(anyInt(), any());
+        verify(playlistService, times(1)).getTracksInPlaylist(anyInt());
     }
 
     @Test
-    public void getTracksInPlaylistResponseIsOk() {
+    public void testGetTracksInPlaylistResponseIsOk() {
         // Arrange
         var expectedResponse = new TracksResponseDTO(null);
         when(playlistService.getTracksInPlaylist(anyInt())).thenReturn(expectedResponse);
@@ -152,5 +153,68 @@ public class PlaylistResrouceTest {
         // Assert
         assertEquals(expectedResponse, response.getEntity());
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testAddTrackToPlaylistCallsCorrectMethod() {
+        // Arrange
+        when(playlistService.addTrackToPlaylist(any(), anyInt())).thenReturn(null);
+
+        // Act
+        playlistResource.addTrackToPlaylist(null, 0, null);
+
+        // Assert
+        verify(playlistService, times(1)).addTrackToPlaylist(any(), anyInt());
+    }
+
+    @Test
+    public void testAddTrackToPlaylistResponseIsOk() {
+        // Arrange
+        var expectedResponse = new TracksResponseDTO(null);
+        when(playlistService.addTrackToPlaylist(any(), anyInt())).thenReturn(expectedResponse);
+
+        // Act
+        Response response = playlistResource.addTrackToPlaylist(null, 0, null);
+
+        // Assert
+        assertEquals(expectedResponse, response.getEntity());
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testRemoveTrackFromCallsCorrectMethod() {
+        // Arrange
+        when(playlistService.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(null);
+
+        // Act
+        playlistResource.removeTrackFromPlaylist(null, 0, 0);
+
+        // Assert
+        verify(playlistService, times(1)).removeTrackFromPlaylist(anyInt(), anyInt());
+    }
+
+    @Test
+    public void testRemoveTrackFromPlaylistResponseIsOk() {
+        // Arrange
+        var expectedResponse = new TracksResponseDTO(null);
+        when(playlistService.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(expectedResponse);
+
+        // Act
+        Response response = playlistResource.removeTrackFromPlaylist(null, 0, 0);
+
+        // Assert
+        assertEquals(expectedResponse, response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testEmptyConstructorReturnsNotNull() {
+        // Arrange
+        playlistResource = new PlaylistResource();
+
+        // Act
+
+        // Assert
+        assertNotNull(playlistResource);
     }
 }

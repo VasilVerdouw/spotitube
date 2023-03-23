@@ -11,8 +11,16 @@ public class PlaylistsResponseDTO {
         this.length = length;
     }
 
-    public PlaylistResponseDTO[] getPlaylists() {
-        return playlists.toArray(new PlaylistResponseDTO[0]);
+    public void setPlaylists (ArrayList<PlaylistResponseDTO> playlists) {
+        this.playlists = playlists;
+    }
+
+    public ArrayList<PlaylistResponseDTO> getPlaylists() {
+        return playlists;
+    }
+
+    public void setLength (int length) {
+        this.length = length;
     }
 
     public int getLength() {

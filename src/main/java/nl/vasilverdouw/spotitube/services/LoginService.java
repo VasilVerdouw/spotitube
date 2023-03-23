@@ -7,6 +7,7 @@ import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import nl.vasilverdouw.spotitube.dto.requests.LoginRequestDTO;
 import nl.vasilverdouw.spotitube.dto.responses.LoginResponseDTO;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class LoginService {

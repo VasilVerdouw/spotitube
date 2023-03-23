@@ -1,9 +1,7 @@
 package nl.vasilverdouw.spotitube.datasource.dao;
 
 import nl.vasilverdouw.spotitube.dto.data.UserDTO;
-import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;

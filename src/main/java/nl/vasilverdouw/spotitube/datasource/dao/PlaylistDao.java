@@ -4,8 +4,6 @@ import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.dto.data.PlaylistDTO;
 import nl.vasilverdouw.spotitube.dto.data.TrackDTO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class PlaylistDao extends BaseDao {
         return null;
     }
 
-    public int getLengthOfAllPlaylists() throws ActionFailedException {
+    public int getLengthOfAllPlaylists() {
         try (ResultSet resultSet = executeQuery(prepareStatement("SELECT SUM(duration) FROM tracksInPlaylists tp INNER JOIN tracks t ON tp.track = t.id"))) {
             if(resultSet.next()) {
                 return resultSet.getInt(1);

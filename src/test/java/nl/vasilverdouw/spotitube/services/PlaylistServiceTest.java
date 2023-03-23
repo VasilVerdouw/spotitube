@@ -4,6 +4,7 @@ import nl.vasilverdouw.spotitube.datasource.dao.PlaylistDao;
 import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.dto.requests.PlaylistRequestDTO;
 import nl.vasilverdouw.spotitube.dto.requests.TrackRequestDTO;
+import nl.vasilverdouw.spotitube.exceptions.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +20,8 @@ public class PlaylistServiceTest {
 
     @BeforeEach
     public void setup() {
-        playlistService = new PlaylistService();
         playlistDao = mock(PlaylistDao.class);
-        playlistService.setPlaylistDao(playlistDao);
+        playlistService = new PlaylistService(playlistDao);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class PlaylistServiceTest {
 
         // Assert
         assertEquals(0, playlistsResponseDTO.getLength());
-        assertEquals(0, playlistsResponseDTO.getPlaylists().length);
+        assertEquals(0, playlistsResponseDTO.getPlaylists().size());
     }
 
     @Test
@@ -80,9 +80,11 @@ public class PlaylistServiceTest {
     public void testRenamePlaylistCallsCorrectMethods() {
         // Arrange
         when(playlistDao.renamePlaylist(any())).thenReturn(1);
+        PlaylistRequestDTO playlist = new PlaylistRequestDTO();
+        playlist.setId(1);
 
         // Act
-        playlistService.renamePlaylist(1, "token", new PlaylistRequestDTO());
+        playlistService.renamePlaylist(1, "token", playlist);
 
         // Assert
         verify(playlistDao, times(1)).renamePlaylist(any());
@@ -128,9 +130,18 @@ public class PlaylistServiceTest {
     }
 
     @Test
+    public void testGetPlaylistThrowsException() {
+        // Arrange
+        when(playlistDao.getPlaylists()).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(ActionFailedException.class, () -> playlistService.getPlaylists("token"));
+    }
+
+    @Test
     public void testDeletePlaylistThrowsException() {
         // Arrange
-        when(playlistDao.deletePlaylist(anyInt())).thenReturn(1);
+        when(playlistDao.deletePlaylist(anyInt())).thenReturn(0);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.deletePlaylist(1, "token"));
@@ -139,25 +150,45 @@ public class PlaylistServiceTest {
     @Test
     public void testAddPlaylistThrowsException() {
         // Arrange
-        when(playlistDao.addPlaylist(any())).thenReturn(1);
+        when(playlistDao.addPlaylist(any())).thenReturn(0);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.addPlaylist(new PlaylistRequestDTO(), "token"));
     }
 
     @Test
-    public void testRenamePlaylistThrowsException() {
+    public void testRenamePlaylistThrowsActionFailedException() {
+        // Arrange
+        when(playlistDao.renamePlaylist(any())).thenReturn(0);
+        PlaylistRequestDTO playlist = new PlaylistRequestDTO();
+        playlist.setId(1);
+
+        // Act & Assert
+        assertThrows(ActionFailedException.class, () -> playlistService.renamePlaylist(1, "token", playlist));
+    }
+
+    @Test
+    public void testRenamePlaylistThrowsBadRequestException() {
         // Arrange
         when(playlistDao.renamePlaylist(any())).thenReturn(1);
 
         // Act & Assert
-        assertThrows(ActionFailedException.class, () -> playlistService.renamePlaylist(1, "token", new PlaylistRequestDTO()));
+        assertThrows(BadRequestException.class, () -> playlistService.renamePlaylist(1, "token", new PlaylistRequestDTO()));
+    }
+
+    @Test
+    public void testGetTracksInPlaylistThrowsException() {
+        // Arrange
+        when(playlistDao.getTracksInPlaylist(anyInt())).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(ActionFailedException.class, () -> playlistService.getTracksInPlaylist(anyInt()));
     }
 
     @Test
     public void testAddTrackToPlaylistThrowsException() {
         // Arrange
-        when(playlistDao.addTrackToPlaylist(anyInt(), anyInt(), anyBoolean())).thenReturn(1);
+        when(playlistDao.addTrackToPlaylist(anyInt(), anyInt(), anyBoolean())).thenReturn(0);
         var track = new TrackRequestDTO();
         track.setId(1);
         track.setOfflineAvailable(true);
@@ -169,7 +200,7 @@ public class PlaylistServiceTest {
     @Test
     public void testRemoveTrackFromPlaylistThrowsException() {
         // Arrange
-        when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(1);
+        when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(0);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
