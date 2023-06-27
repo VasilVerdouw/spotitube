@@ -58,13 +58,13 @@ public class PlaylistResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addTrackToPlaylist(@QueryParam("token") String token, @PathParam("id") int id, TrackRequestDTO track) {
-        return Response.status(Response.Status.CREATED).entity(playlistService.addTrackToPlaylist(track, id)).build();
+        return Response.status(Response.Status.CREATED).entity(playlistService.addTrackToPlaylist(track, id, token)).build();
     }
 
     @DELETE
     @Path("/{id}/tracks/{trackId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeTrackFromPlaylist(@QueryParam("token") String token, @PathParam("id") int id, @PathParam("trackId") int trackId) {
-        return Response.ok(playlistService.removeTrackFromPlaylist(id, trackId)).build();
+        return Response.ok(playlistService.removeTrackFromPlaylist(id, trackId, token)).build();
     }
 }

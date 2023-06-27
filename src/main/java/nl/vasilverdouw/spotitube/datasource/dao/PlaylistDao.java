@@ -86,4 +86,17 @@ public class PlaylistDao extends BaseDao {
     public int removeTrackFromPlaylist(int playlist, int track) {
         return executeUpdate("DELETE FROM tracksInPlaylists WHERE playlist = ? AND track = ?", playlist, track);
     }
+
+    // Used to check if user is owner of playlist
+    public int findAmountOfPlaylistsWithIdOwnedByToken(int playlist, String token) {
+        try (PreparedStatement preparedStatement = prepareStatement("SELECT COUNT(*) FROM playlists p INNER JOIN users u ON p.owner = u.username WHERE p.id = ? AND u.token = ?");
+                ResultSet resultSet = executeQuery(preparedStatement, playlist, token)){
+            if(resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error while checking if user is owner of playlist", e);
+        }
+        return 0;
+    }
 }

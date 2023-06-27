@@ -5,6 +5,7 @@ import nl.vasilverdouw.spotitube.exceptions.ActionFailedException;
 import nl.vasilverdouw.spotitube.dto.requests.PlaylistRequestDTO;
 import nl.vasilverdouw.spotitube.dto.requests.TrackRequestDTO;
 import nl.vasilverdouw.spotitube.exceptions.BadRequestException;
+import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +30,7 @@ public class PlaylistServiceTest {
         // Arrange
         when(playlistDao.getPlaylists()).thenReturn(new ArrayList<>());
         when(playlistDao.getLengthOfAllPlaylists()).thenReturn(0);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
         var playlistsResponseDTO = playlistService.getPlaylists("token");
@@ -43,6 +45,7 @@ public class PlaylistServiceTest {
         // Arrange
         when(playlistDao.getPlaylists()).thenReturn(new ArrayList<>());
         when(playlistDao.getLengthOfAllPlaylists()).thenReturn(0);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
         playlistService.getPlaylists("token");
@@ -56,6 +59,7 @@ public class PlaylistServiceTest {
     public void testDeletePlaylistCallsCorrectMethods() {
         // Arrange
         when(playlistDao.deletePlaylist(1)).thenReturn(1);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
         playlistService.deletePlaylist(1, "token");
@@ -68,6 +72,7 @@ public class PlaylistServiceTest {
     public void testAddPlaylistCallsCorrectMethods() {
         // Arrange
         when(playlistDao.addPlaylist(any())).thenReturn(1);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
         playlistService.addPlaylist(new PlaylistRequestDTO(), "token");
@@ -82,6 +87,7 @@ public class PlaylistServiceTest {
         when(playlistDao.renamePlaylist(any())).thenReturn(1);
         PlaylistRequestDTO playlist = new PlaylistRequestDTO();
         playlist.setId(1);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
         playlistService.renamePlaylist(1, "token", playlist);
@@ -94,6 +100,7 @@ public class PlaylistServiceTest {
     public void testGetTracksInPlaylistCallsCorrectMethods() {
         // Arrange
         when(playlistDao.getTracksInPlaylist(anyInt())).thenReturn(new ArrayList<>());
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
         playlistService.getTracksInPlaylist(anyInt());
@@ -109,9 +116,10 @@ public class PlaylistServiceTest {
         var track = new TrackRequestDTO();
         track.setId(1);
         track.setOfflineAvailable(true);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
-        playlistService.addTrackToPlaylist(track, 1);
+        playlistService.addTrackToPlaylist(track, 1, "token");
 
         // Assert
         verify(playlistDao, times(1)).addTrackToPlaylist(1, 1, true);
@@ -121,9 +129,10 @@ public class PlaylistServiceTest {
     public void testRemoveTrackFromPlaylistCallsCorrectMethods() {
         // Arrange
         when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(1);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act
-        playlistService.removeTrackFromPlaylist(1, 1);
+        playlistService.removeTrackFromPlaylist(1, 1, "token");
 
         // Assert
         verify(playlistDao, times(1)).removeTrackFromPlaylist(1, 1);
@@ -133,6 +142,7 @@ public class PlaylistServiceTest {
     public void testGetPlaylistThrowsException() {
         // Arrange
         when(playlistDao.getPlaylists()).thenReturn(null);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.getPlaylists("token"));
@@ -142,6 +152,7 @@ public class PlaylistServiceTest {
     public void testDeletePlaylistThrowsException() {
         // Arrange
         when(playlistDao.deletePlaylist(anyInt())).thenReturn(0);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.deletePlaylist(1, "token"));
@@ -151,6 +162,7 @@ public class PlaylistServiceTest {
     public void testAddPlaylistThrowsException() {
         // Arrange
         when(playlistDao.addPlaylist(any())).thenReturn(0);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.addPlaylist(new PlaylistRequestDTO(), "token"));
@@ -162,6 +174,7 @@ public class PlaylistServiceTest {
         when(playlistDao.renamePlaylist(any())).thenReturn(0);
         PlaylistRequestDTO playlist = new PlaylistRequestDTO();
         playlist.setId(1);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.renamePlaylist(1, "token", playlist));
@@ -171,6 +184,7 @@ public class PlaylistServiceTest {
     public void testRenamePlaylistThrowsBadRequestException() {
         // Arrange
         when(playlistDao.renamePlaylist(any())).thenReturn(1);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(BadRequestException.class, () -> playlistService.renamePlaylist(1, "token", new PlaylistRequestDTO()));
@@ -180,6 +194,7 @@ public class PlaylistServiceTest {
     public void testGetTracksInPlaylistThrowsException() {
         // Arrange
         when(playlistDao.getTracksInPlaylist(anyInt())).thenReturn(null);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
         assertThrows(ActionFailedException.class, () -> playlistService.getTracksInPlaylist(anyInt()));
@@ -192,17 +207,57 @@ public class PlaylistServiceTest {
         var track = new TrackRequestDTO();
         track.setId(1);
         track.setOfflineAvailable(true);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
-        assertThrows(ActionFailedException.class, () -> playlistService.addTrackToPlaylist(track, 1));
+        assertThrows(ActionFailedException.class, () -> playlistService.addTrackToPlaylist(track, 1, "token"));
     }
 
     @Test
     public void testRemoveTrackFromPlaylistThrowsException() {
         // Arrange
         when(playlistDao.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(0);
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(1);
 
         // Act & Assert
-        assertThrows(ActionFailedException.class, () -> playlistService.removeTrackFromPlaylist(1, 1));
+        assertThrows(ActionFailedException.class, () -> playlistService.removeTrackFromPlaylist(1, 1, "token"));
+    }
+
+    @Test
+    public void testCannotDeletePlaylistFromOtherUser() {
+        // Arrange
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(0);
+
+        // Act & Assert
+        assertThrows(UnauthorizedException.class, () -> playlistService.deletePlaylist(1, "token"));
+    }
+
+    @Test
+    public void testCannotRenamePlaylistFromOtherUser() {
+        // Arrange
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(0);
+        PlaylistRequestDTO playlist = new PlaylistRequestDTO();
+        playlist.setId(1);
+
+        // Act & Assert
+        assertThrows(UnauthorizedException.class, () -> playlistService.renamePlaylist(1, "token", playlist));
+    }
+
+    @Test
+    public void testCannotAddTrackToPlaylistFromOtherUser() {
+        // Arrange
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(0);
+
+        // Act & Assert
+        assertThrows(UnauthorizedException.class, () -> playlistService.addTrackToPlaylist(new TrackRequestDTO(), 1, "token"));
+    }
+
+    @Test
+    public void testCannotRemoveTrackFromPlaylistFromOtherUser() {
+        // Arrange
+        when(playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(anyInt(), any())).thenReturn(0);
+
+        // Act & Assert
+        assertThrows(UnauthorizedException.class, () -> playlistService.removeTrackFromPlaylist(1, 1, "token"));
     }
 }

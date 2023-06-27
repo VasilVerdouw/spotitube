@@ -12,6 +12,7 @@ import nl.vasilverdouw.spotitube.dto.responses.PlaylistsResponseDTO;
 import nl.vasilverdouw.spotitube.dto.responses.TrackResponseDTO;
 import nl.vasilverdouw.spotitube.dto.responses.TracksResponseDTO;
 import nl.vasilverdouw.spotitube.exceptions.BadRequestException;
+import nl.vasilverdouw.spotitube.exceptions.UnauthorizedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,10 @@ public class PlaylistService {
     public PlaylistsResponseDTO deletePlaylist(int id, String token) {
         // Might want to check first if the playlist exists, but that's not necessary in this case.
         // Difference is not that big either way but will cost 1 more database call.
+        if(!isUserOwnerOfPlaylist(id, token)) {
+            throw new UnauthorizedException("User is not owner of playlist");
+        }
+
         if(playlistDao.deletePlaylist(id) > 0){
             return getPlaylists(token);
         }
@@ -57,8 +62,14 @@ public class PlaylistService {
     }
 
     public PlaylistsResponseDTO renamePlaylist(int id, String token, PlaylistRequestDTO playlist) {
+        // First check to do because it doesn't require any database calls
+        // This way we might save 1 call if this check fails.
         if(playlist.getId() != id) {
             throw new BadRequestException("Id in path does not match id in body");
+        }
+
+        if(!isUserOwnerOfPlaylist(id, token)) {
+            throw new UnauthorizedException("User is not owner of playlist");
         }
 
         var mappedPlaylist = mapPlaylistRequestToPlaylist(playlist, token);
@@ -78,7 +89,11 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to get tracks in playlist");
     }
 
-    public TracksResponseDTO addTrackToPlaylist(TrackRequestDTO track, int id) {
+    public TracksResponseDTO addTrackToPlaylist(TrackRequestDTO track, int id, String token) {
+        if(!isUserOwnerOfPlaylist(id, token)) {
+            throw new UnauthorizedException("User is not owner of playlist");
+        }
+
         if(playlistDao.addTrackToPlaylist(id, track.getId(), track.isOfflineAvailable()) > 0) {
             return getTracksInPlaylist(id);
         }
@@ -86,12 +101,20 @@ public class PlaylistService {
         throw new ActionFailedException("Failed to add track to playlist");
     }
 
-    public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) {
+    public TracksResponseDTO removeTrackFromPlaylist(int playlistId, int trackId, String token) {
+        if(!isUserOwnerOfPlaylist(playlistId, token)) {
+            throw new UnauthorizedException("User is not owner of playlist");
+        }
+
         if(playlistDao.removeTrackFromPlaylist(playlistId, trackId) > 0){
             return getTracksInPlaylist(playlistId);
         }
 
         throw new ActionFailedException("Failed to remove track from playlist");
+    }
+
+    public boolean isUserOwnerOfPlaylist(int playlistId, String token) {
+        return playlistDao.findAmountOfPlaylistsWithIdOwnedByToken(playlistId, token) > 0;
     }
 
     // Some simple mapping methods. Could be done with a library like MapStruct

@@ -23,6 +23,7 @@ public class PlaylistResrouceTest {
     public void setup() {
         playlistService = mock(PlaylistService.class);
         playlistResource = new PlaylistResource(playlistService);
+        when(playlistService.isUserOwnerOfPlaylist(anyInt(), any())).thenReturn(true);
     }
 
     @Test
@@ -158,23 +159,23 @@ public class PlaylistResrouceTest {
     @Test
     public void testAddTrackToPlaylistCallsCorrectMethod() {
         // Arrange
-        when(playlistService.addTrackToPlaylist(any(), anyInt())).thenReturn(null);
+        when(playlistService.addTrackToPlaylist(any(), anyInt(), anyString())).thenReturn(null);
 
         // Act
-        playlistResource.addTrackToPlaylist(null, 0, null);
+        playlistResource.addTrackToPlaylist("token", 0, null);
 
         // Assert
-        verify(playlistService, times(1)).addTrackToPlaylist(any(), anyInt());
+        verify(playlistService, times(1)).addTrackToPlaylist(any(), anyInt(), anyString());
     }
 
     @Test
     public void testAddTrackToPlaylistResponseIsOk() {
         // Arrange
         var expectedResponse = new TracksResponseDTO(null);
-        when(playlistService.addTrackToPlaylist(any(), anyInt())).thenReturn(expectedResponse);
+        when(playlistService.addTrackToPlaylist(any(), anyInt(), anyString())).thenReturn(expectedResponse);
 
         // Act
-        Response response = playlistResource.addTrackToPlaylist(null, 0, null);
+        Response response = playlistResource.addTrackToPlaylist("token", 0, null);
 
         // Assert
         assertEquals(expectedResponse, response.getEntity());
@@ -184,23 +185,23 @@ public class PlaylistResrouceTest {
     @Test
     public void testRemoveTrackFromCallsCorrectMethod() {
         // Arrange
-        when(playlistService.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(null);
+        when(playlistService.removeTrackFromPlaylist(anyInt(), anyInt(), anyString())).thenReturn(null);
 
         // Act
-        playlistResource.removeTrackFromPlaylist(null, 0, 0);
+        playlistResource.removeTrackFromPlaylist("token", 0, 0);
 
         // Assert
-        verify(playlistService, times(1)).removeTrackFromPlaylist(anyInt(), anyInt());
+        verify(playlistService, times(1)).removeTrackFromPlaylist(anyInt(), anyInt(), anyString());
     }
 
     @Test
     public void testRemoveTrackFromPlaylistResponseIsOk() {
         // Arrange
         var expectedResponse = new TracksResponseDTO(null);
-        when(playlistService.removeTrackFromPlaylist(anyInt(), anyInt())).thenReturn(expectedResponse);
+        when(playlistService.removeTrackFromPlaylist(anyInt(), anyInt(), anyString())).thenReturn(expectedResponse);
 
         // Act
-        Response response = playlistResource.removeTrackFromPlaylist(null, 0, 0);
+        Response response = playlistResource.removeTrackFromPlaylist("token", 0, 0);
 
         // Assert
         assertEquals(expectedResponse, response.getEntity());
@@ -210,9 +211,8 @@ public class PlaylistResrouceTest {
     @Test
     public void testEmptyConstructorReturnsNotNull() {
         // Arrange
-        playlistResource = new PlaylistResource();
-
         // Act
+        playlistResource = new PlaylistResource();
 
         // Assert
         assertNotNull(playlistResource);
