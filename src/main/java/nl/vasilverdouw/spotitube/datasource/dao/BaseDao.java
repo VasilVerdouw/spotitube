@@ -32,7 +32,7 @@ public class BaseDao {
             return preparedStatement.executeUpdate();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while executing update: " + statement, e);
-            // Exception should be thrown here. But didn't get it to work with the exception mapper.
+            // TODO: Exception should be thrown here. But didn't get it to work with the exception mapper.
         }
         return 0;
     }
@@ -45,7 +45,7 @@ public class BaseDao {
             return preparedStatement.executeQuery();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error while executing query", e);
-            // Exception should be thrown here. But didn't get it to work with the exception mapper.
+            // TODO: Exception should be thrown here. But didn't get it to work with the exception mapper.
         }
         return null;
     }
